@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/CSE489-589GameEngine2021/v16/Browse.VC.opendb
+x64
+.vs
+x64
