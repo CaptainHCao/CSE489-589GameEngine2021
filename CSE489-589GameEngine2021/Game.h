@@ -89,6 +89,8 @@ public:
 	bool gameIsInitialized() { return gameInitialized; }
 
 protected:
+	
+	double startTime = glfwGetTime();
 
 	/**
 	 * @fn	bool Game::initialize();

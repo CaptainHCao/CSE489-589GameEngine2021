@@ -153,6 +153,7 @@
     <ClInclude Include="DirectionalLIghtComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="PointCounter.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MathLibsConstsFuncs.h" />
@@ -218,6 +219,7 @@
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="SoundListenerComponent.cpp" />
     <ClCompile Include="SoundSourceComponent.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="SphereMeshComponent.cpp" />
     <ClCompile Include="SpotLightComponent.cpp" />
     <ClCompile Include="SteeringComponent.cpp" />

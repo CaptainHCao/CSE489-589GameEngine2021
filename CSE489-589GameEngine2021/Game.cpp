@@ -58,6 +58,8 @@ bool Game::initializeGame()
 
 	bool physicsInit = PhysicsEngine::Init();
 
+	startTime = glfwGetTime();
+
 	// Check if all libraries initialized correctly
 	if (windowInit && graphicsInit && soundInit && physicsInit)
 	{
@@ -229,6 +231,8 @@ void Game::gameLoop()
 		renderScene();
 	}
 
+	
+
 	if (VERBOSE) cout << "Exited Game Loop" << endl;
 
 } // end gameLoop
@@ -272,6 +276,11 @@ void Game::updateGame()
 	static double lastRenderTime = glfwGetTime(); // static initilization only occurs once
 	double currentTime = glfwGetTime();
 	float deltaTime = static_cast<float>(currentTime - lastRenderTime);
+
+	if (currentTime - startTime >= 30.0f)
+	{
+		shutdown();
+	}
 
 	if (deltaTime > 0.05f) {
 		deltaTime = 0.05f;

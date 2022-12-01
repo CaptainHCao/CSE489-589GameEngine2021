@@ -44,6 +44,7 @@
 
 // Physics
 #include "RigidBodyComponent.h"
+#include "PhysicsEngine.h"
 
 // Sound
 #include "SoundEngine.h"

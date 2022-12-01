@@ -23,6 +23,14 @@ RigidBodyComponent::~RigidBodyComponent()
 		delete bulletRigidBody;
 	}
 
+	if (ghostRigidBody != nullptr && PhysicsEngine::dynamicsWorld != nullptr) {
+
+		PhysicsEngine::RemoveFromColPairsLastUpdate(ghostRigidBody->getMotionState());
+
+		PhysicsEngine::dynamicsWorld->removeRigidBody(ghostRigidBody);
+		delete ghostRigidBody;
+	}
+
 } // end destructor
 
 

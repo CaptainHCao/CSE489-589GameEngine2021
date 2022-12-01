@@ -165,6 +165,9 @@
     <ClInclude Include="SynceComponent.h">
       <Filter>Movement Components</Filter>
     </ClInclude>
+    <ClInclude Include="PointCounter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxMeshComponent.cpp">
@@ -280,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="SynceComponent.cpp">
       <Filter>Movement Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

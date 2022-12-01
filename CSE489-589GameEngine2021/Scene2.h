@@ -4,9 +4,13 @@
 
 class Scene2 : public Game
 {
+	float startTime;
+	float currentTime;
 
 	void loadScene() override
 	{
+		startTime = glfwGetTime();
+
 		// Set the window title
 		glfwSetWindowTitle(renderWindow, "Scene 2");
 
@@ -73,19 +77,27 @@ class Scene2 : public Game
 
 		// ****** sphereGameObject *********
 
-		GameObject* sphereGameObject = new GameObject();
-		this->addChildGameObject(sphereGameObject);
-		sphereGameObject->setPosition(vec3(-100.0f, 0.0f, 0.0f), WORLD);
+		//Add a balloon
+		GameObject* balloonGameObject = new GameObject();
+		this->addChildGameObject(balloonGameObject);
+		//Spawn the balloon
+		balloonGameObject->setPosition(vec3(50.0f, 0.0f, -200.0f), WORLD);
 
-		Material sphereMat;
-		sphereMat.setDiffuseTexture(Texture::GetTexture("Textures/earthmap.jpg")->getTextureObject());
-		SphereMeshComponent* sphereMesh = new SphereMeshComponent(shaderProgram, sphereMat, 5.0f);
-		sphereGameObject->addComponent(sphereMesh);
+		//set spaceship's model, scale, sound listener and steering component
+		balloonGameObject->setScale(vec3(0.01f, 0.01f, 0.01f), LOCAL);
+		balloonGameObject->setRotation(glm::rotate(-PI_OVER_2, UNIT_X_V3));
 
-		RigidBodyComponent* rigidBody = new RigidBodyComponent(sphereMesh, STATIONARY);
-		sphereGameObject->addComponent(rigidBody);
+		ModelMeshComponent* balloonMesh = new ModelMeshComponent("Assets/balloon/11809_Hot_air_balloon_l2.obj", shaderProgram);
+		balloonGameObject->addComponent(balloonMesh);
+		
+		RigidBodyComponent* rigidBody = new RigidBodyComponent(balloonMesh, DYNAMIC);
+		rigidBody->setGravityOn(false);
 
-		sphereGameObject->gameObjectName = "earth - STATIONARY";
+		balloonGameObject->addComponent(rigidBody);
+
+		balloonGameObject->addComponent(new CollisionComponent());
+
+		balloonGameObject->gameObjectName = "balloon - DYNAMIC";
 		//sphereGameObject->addComponent(new CollisionComponent());
 
 		// ****** sphereGameObject2 *********
@@ -103,6 +115,8 @@ class Scene2 : public Game
 		RigidBodyComponent* sgorg2 = new RigidBodyComponent(sphereMesh2, DYNAMIC, 1000.0f);
 		sgorg2->setGravityOn(false);
 		sphereGameObject2->addComponent(sgorg2);
+
+		sphereGameObject2->addComponent(new CollisionComponent());
 
 		sphereGameObject2->gameObjectName = "blue sphere - DYNAMIC";
 		//sphereGameObject2->addComponent(new CollisionComponent());
@@ -164,7 +178,6 @@ class Scene2 : public Game
 		jetGameObject->gameObjectName = "jet - KINEMATIC";
 		//jetGameObject->addComponent(new CollisionComponent());
 
-		std::vector<GameObject*> waypoints = { boxGameObject, cylinderGameObject, sphereGameObject, sphereGameObject2 };
 
 		//SteeringComponent* stComp = new SteeringComponent(waypoints);
 
@@ -208,5 +221,4 @@ class Scene2 : public Game
 		followCamera->setSkyBox(skybox1);
 
 	} // end loadScene
-
 };
