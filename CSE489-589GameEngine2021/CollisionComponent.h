@@ -11,20 +11,20 @@ public:
 
 	virtual void collisionEnter(const class RigidBodyComponent* collisionData)
 	{
-		cout << "collision enter " << owningGameObject->gameObjectName << endl; 
+		//cout << "collision enter " << owningGameObject->gameObjectName << endl; 
 		owningGameObject->removeAndDelete();
 		cout << "points: " << ++PointCounter::points << endl;
 	};
 
 	virtual void collisionStay(const class RigidBodyComponent* collisionData)
 	{ 
-		cout << "collision stay " << owningGameObject->gameObjectName << endl;
+		//cout << "collision stay " << owningGameObject->gameObjectName << endl;
 		owningGameObject->removeAndDelete();
 	};
 
 	virtual void collisionExit(const class RigidBodyComponent* collisionData)
 	{ 
-		cout << "collision exit " << owningGameObject->gameObjectName << endl;
+		//cout << "collision exit " << owningGameObject->gameObjectName << endl;
 
 		//owningGameObject->removeAndDelete();
 	};
