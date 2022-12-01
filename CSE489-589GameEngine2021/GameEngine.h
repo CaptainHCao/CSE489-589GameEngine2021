@@ -40,6 +40,7 @@
 #include "RemoveComponent.h"
 #include "CollisionComponent.h"
 #include "UserSteeringComponent.h"
+#include "SynceComponent.h"
 
 // Physics
 #include "RigidBodyComponent.h"

@@ -3,8 +3,12 @@
 class SynceComponent :
     public Component
 {
-   SynceComponent(GameObject* followedGameObject, int updateEngine);
+public:
+   SynceComponent(GameObject* followedGameObject, int updateOrder = 100);
 
    virtual void update(const float& deltaTime) override;
+
+protected:
+    GameObject* followedGameObject;
 };
 

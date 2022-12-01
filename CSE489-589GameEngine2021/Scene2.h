@@ -152,13 +152,9 @@ class Scene2 : public Game
 		//camera2->setSkyBox(skybox2);
 
 		// ****** Jet *********
-		GameObject* jetInputObject = new GameObject();
 		GameObject* jetGameObject = new GameObject();
 
-		jetInputObject->addComponent(new SynceComponent(jetGameObject));
-
-		jetInputObject->addChildGameObject(jetGameObject);
-		this->addChildGameObject(jetInputObject);
+		this->addChildGameObject(jetGameObject);
 		jetGameObject->setPosition(vec3(0.0f, 0.0f, 0.0f), WORLD);
 		jetGameObject->setScale(vec3(0.25f, 0.25f, 0.25f), LOCAL);
 

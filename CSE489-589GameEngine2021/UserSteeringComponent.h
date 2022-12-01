@@ -1,17 +1,30 @@
 #pragma once
 #include "Component.h"
+
 class UserSteeringComponent :
     public Component
 {
 public:
-	UserSteeringComponent(vec3 velocity = vec3(20, 0, 0), int updateOrder = 100);
+    UserSteeringComponent(float speed = 20.0f, int updateOrder = 100);
 
-	virtual void update(const float& deltaTime) override;
+    virtual void initialize() override;
 
-	float currentRoll = 0;
+    virtual void processInput() override;
+
+    virtual void update(const float& deltaTime) override;
+
+    //virtual vec3 desiredDirection();
 
 protected:
-	vec3 velocity;
-};
 
+    float rotationY = 0.0f, rotationX = 0.0f;
+
+    float ROTATION_INC = glm::radians(20.0f);
+
+    float ROTATION = glm::radians(20.0f);
+
+    float speed;
+
+    float currentRoll = 0;
+};
 
