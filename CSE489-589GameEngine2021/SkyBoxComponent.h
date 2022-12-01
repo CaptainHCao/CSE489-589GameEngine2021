@@ -29,6 +29,7 @@ protected:
 		"Assets/Cube Map/bottom.jpg",
 		"Assets/Cube Map/back.jpg",
 		"Assets/Cube Map/front.jpg"
+
 	};
 
 	GLuint skyboxTexture = 0;

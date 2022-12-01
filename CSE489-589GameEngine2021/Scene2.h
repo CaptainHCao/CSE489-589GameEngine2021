@@ -59,16 +59,24 @@ class Scene2 : public Game
 		dlc->setEnable(true);
 		directionaLightGO->addComponent(dlc);
 
+		//set waypoints for earth to move
+		GameObject* location1 = new GameObject();
+		GameObject* location2 = new GameObject();
+		this->addChildGameObject(location1);
+		this->addChildGameObject(location2);
+		location1->setPosition(vec3(50.0f, 0.0f, -50.0f), WORLD);
+		location2->setPosition(vec3(-100.0f, 0.0f, -100.0f), WORLD);
 
-		// ****** sphereGameObject *********
+		std::vector<GameObject*> waypoints = { location1, location2 };
 
+		// ****** balloonGameObject *********
 		//Add a balloon
 		GameObject* balloonGameObject = new GameObject();
 		this->addChildGameObject(balloonGameObject);
 		//Spawn the balloon
 		balloonGameObject->setPosition(vec3(50.0f, 0.0f, -200.0f), WORLD);
 
-		//set spaceship's model, scale, sound listener and steering component
+		//set balloon properties
 		balloonGameObject->setScale(vec3(0.01f, 0.01f, 0.01f), LOCAL);
 		balloonGameObject->setRotation(glm::rotate(-PI_OVER_2, UNIT_X_V3));
 
@@ -82,29 +90,60 @@ class Scene2 : public Game
 
 		balloonGameObject->addComponent(new CollisionComponent());
 
+		//balloon song
+		SoundSourceComponent* balloonSound = new SoundSourceComponent("Sounds/sweet-child-o-mine.wav", true);
+		balloonSound->setMaxDistance(500.0f);
+		balloonSound->setReferenceDistance(200.0f);
+		balloonSound->setLooping(true);
+		balloonSound->play();
+		balloonGameObject->addComponent(balloonSound);
+
 		balloonGameObject->gameObjectName = "balloon - DYNAMIC";
-		//sphereGameObject->addComponent(new CollisionComponent());
 
-		// ****** sphereGameObject2 *********
+		// ****** tennisGameObject *********
 
-		GameObject* sphereGameObject2 = new GameObject();
-		this->addChildGameObject(sphereGameObject2);
-		sphereGameObject2->setPosition(vec3(0.0f, 0.0f, -50.0f), WORLD);
+		//Add a tennis falling from the sky
+		GameObject* tennisGameObject = new GameObject();
+		this->addChildGameObject(tennisGameObject);
+		//Spawn the balloon
+		tennisGameObject->setPosition(vec3(-50.0f, 50.0f, -200.0f), WORLD);
+
+		//set the tennis ball properties
+		tennisGameObject->setScale(vec3(0.05f, 0.05f, 0.05f), LOCAL);
+
+		ModelMeshComponent* tennisMesh = new ModelMeshComponent("Assets/Dinosaur/tennisball.obj", shaderProgram);
+		tennisGameObject->addComponent(tennisMesh);
+
+		RigidBodyComponent* tennisrigidBody = new RigidBodyComponent(tennisMesh, DYNAMIC, 0.05f);
+		tennisrigidBody->setGravityOn(true);
+
+		tennisGameObject->addComponent(tennisrigidBody);
+
+		tennisGameObject->addComponent(new CollisionComponent());
+
+		tennisGameObject->gameObjectName = "tennis - DYNAMIC";
+
+		// ****** earthGameObject *********
+
+		GameObject* earthGameObject = new GameObject();
+		this->addChildGameObject(earthGameObject);
+		earthGameObject->setPosition(vec3(0.0f, 0.0f, -100.0f), WORLD);
 
 		Material sphereMat2;
 		sphereMat2.setDiffuseMat(vec4(0.0f, 0.0f, 1.0f, 1.0f));
 		sphereMat2.setDiffuseTexture(Texture::GetTexture("Textures/earthmap.jpg")->getTextureObject());
 		SphereMeshComponent* sphereMesh2 = new SphereMeshComponent(shaderProgram, sphereMat2, 5.0f, 24, 32);
-		sphereGameObject2->addComponent(sphereMesh2);
+		earthGameObject->addComponent(sphereMesh2);
 
-		RigidBodyComponent* sgorg2 = new RigidBodyComponent(sphereMesh2, DYNAMIC, 1000.0f);
+		RigidBodyComponent* sgorg2 = new RigidBodyComponent(sphereMesh2, DYNAMIC);
 		sgorg2->setGravityOn(false);
-		sphereGameObject2->addComponent(sgorg2);
+		earthGameObject->addComponent(sgorg2);
 
-		sphereGameObject2->addComponent(new CollisionComponent());
+		earthGameObject->addComponent(new CollisionComponent());
 
-		sphereGameObject2->gameObjectName = "blue sphere - DYNAMIC";
-		//sphereGameObject2->addComponent(new CollisionComponent());
+		earthGameObject->addComponent(new SteeringComponent(waypoints));
+
+		earthGameObject->gameObjectName = "blue sphere - DYNAMIC";
 
 		// ****** Cameras *********
 
@@ -129,11 +168,9 @@ class Scene2 : public Game
 		camera2->setViewPort(0.6f, 0.55f, 0.35f, 0.4f);
 		cameraGameObject2->addComponent(camera2);
 
-		//SkyBoxComponent* skybox2 = new SkyBoxComponent(150);
-		//cameraGameObject2->addComponent(skybox2);
-		//camera2->setSkyBox(skybox2);
-
 		// ****** Jet *********
+		
+		//add a jet and its properties
 		GameObject* jetGameObject = new GameObject();
 
 		this->addChildGameObject(jetGameObject);
@@ -144,15 +181,14 @@ class Scene2 : public Game
 		jetGameObject->addComponent(jetMesh);
 
 		jetGameObject->gameObjectName = "jet - KINEMATIC";
-		//jetGameObject->addComponent(new CollisionComponent());
 
-
-		//SteeringComponent* stComp = new SteeringComponent(waypoints);
-
+		//custome steering
 		UserSteeringComponent* stComp = new UserSteeringComponent();
 		jetGameObject->addComponent(stComp);
 
-		SoundSourceComponent* jetSound = new SoundSourceComponent("Assets/airplane-interior-2.wav", true);
+		//jet song
+		SoundSourceComponent* jetSound = new SoundSourceComponent("Sounds/21 Guns.wav", true);
+		jetSound->setGain(2.0f);
 		jetSound->setLooping(true);
 		jetSound->play();
 		jetGameObject->addComponent(jetSound);
@@ -161,6 +197,7 @@ class Scene2 : public Game
 		
 		jetGameObject->addComponent(new ModelMakerComponent(shaderProgram, "Assets/Dinosaur/Trex.obj"));
 
+		//listener
 		SoundListenerComponent* listen = new SoundListenerComponent();
 		jetGameObject->addComponent(listen);
 
