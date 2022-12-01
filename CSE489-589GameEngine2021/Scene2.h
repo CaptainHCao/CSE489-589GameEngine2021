@@ -59,21 +59,6 @@ class Scene2 : public Game
 		dlc->setEnable(true);
 		directionaLightGO->addComponent(dlc);
 
-		// ****** boxGameObject *********
-
-		GameObject* boxGameObject = new GameObject();
-		this->addChildGameObject(boxGameObject);
-		boxGameObject->setPosition(vec3(100.0f, 0.0f, 0.0f), WORLD);
-
-		Material boxMat;
-		boxMat.setDiffuseMat(vec4(1.0f, 0.0f, 1.0f, 1.0f));
-		BoxMeshComponent* boxMesh = new BoxMeshComponent(boxMat, shaderProgram, 10, 10, 10);
-
-		boxGameObject->addComponent(boxMesh);
-		boxGameObject->addComponent(new RigidBodyComponent(boxMesh, STATIONARY));
-
-		boxGameObject->gameObjectName = "box - STATIONARY";
-		//boxGameObject->addComponent(new CollisionComponent());
 
 		// ****** sphereGameObject *********
 
@@ -108,7 +93,7 @@ class Scene2 : public Game
 
 		Material sphereMat2;
 		sphereMat2.setDiffuseMat(vec4(0.0f, 0.0f, 1.0f, 1.0f));
-		//sphereMat2.setDiffuseTexture(Texture::GetTexture("Textures/earthmap.jpg")->getTextureObject());
+		sphereMat2.setDiffuseTexture(Texture::GetTexture("Textures/earthmap.jpg")->getTextureObject());
 		SphereMeshComponent* sphereMesh2 = new SphereMeshComponent(shaderProgram, sphereMat2, 5.0f, 24, 32);
 		sphereGameObject2->addComponent(sphereMesh2);
 
@@ -120,20 +105,6 @@ class Scene2 : public Game
 
 		sphereGameObject2->gameObjectName = "blue sphere - DYNAMIC";
 		//sphereGameObject2->addComponent(new CollisionComponent());
-
-		// ****** cylinderGameObject *********
-
-		GameObject* cylinderGameObject = new GameObject();
-		this->addChildGameObject(cylinderGameObject);
-		cylinderGameObject->setPosition(vec3(0.0f, 0.0f, 100.0f), WORLD);
-
-		Material sphereMat3;
-		sphereMat3.setDiffuseMat(vec4(1.0f, 1.0f, 0.0f, 1.0f));
-		CylinderMeshComponent* cylinder = new CylinderMeshComponent(shaderProgram, sphereMat3, 2.0f, 4.0f);
-		cylinderGameObject->addComponent(cylinder);
-
-		cylinderGameObject->gameObjectName = "cylinder without a rigid body";
-		//ylinderGameObject->addComponent(new CollisionComponent());
 
 		// ****** Cameras *********
 
@@ -149,15 +120,12 @@ class Scene2 : public Game
 		cameraGameObject->addComponent(skybox);
 		camera->setSkyBox(skybox);
 
-		SoundListenerComponent* listen = new SoundListenerComponent();
-		cameraGameObject->addComponent(listen);
-
 		GameObject* cameraGameObject2 = new GameObject();
 		this->addChildGameObject(cameraGameObject2);
-		cameraGameObject2->setPosition(vec3(0.0f, 250.0f, 0.0f), WORLD);
+		cameraGameObject2->setPosition(vec3(0.0f, 300.0f, 0.0f), WORLD);
 		cameraGameObject2->setRotation(glm::rotate(-PI_OVER_2, UNIT_X_V3));
 
-		CameraComponent* camera2 = new CameraComponent(150);
+		CameraComponent* camera2 = new CameraComponent(0, 90.0f, 100);
 		camera2->setViewPort(0.6f, 0.55f, 0.35f, 0.4f);
 		cameraGameObject2->addComponent(camera2);
 
@@ -192,6 +160,9 @@ class Scene2 : public Game
 		jetGameObject->addComponent(new RigidBodyComponent(jetMesh, KINEMATIC));
 		
 		jetGameObject->addComponent(new ModelMakerComponent(shaderProgram, "Assets/Dinosaur/Trex.obj"));
+
+		SoundListenerComponent* listen = new SoundListenerComponent();
+		jetGameObject->addComponent(listen);
 
 		// Add a spot light
 		GameObject* spotLightGO = new GameObject();

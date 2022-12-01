@@ -359,6 +359,12 @@ void Game::shutdown()
 	// Delete all shader programs that have been created
 	deleteAllShaderPrograms();
 
+	// Stop the Sound Engine
+	SoundEngine::Stop();
+
+	// Stop the Physics Engine
+	PhysicsEngine::Stop();
+
 } // end shutDown
 
 //********************* Accessor Methods *****************************************
